@@ -1,3 +1,5 @@
+#require 'pry'
+
 class Prime
   #10 000 000 , 10 ^ 8 runtimes
   #brute_force : 74.860748 seconds
@@ -7,11 +9,19 @@ class Prime
   #Killed: 9
   #10000000000
 
+  # TODO: consider changing instance methods to class methods
+  # TODO: check whether the size of bool arrays in Ruby (B[].size) > (C[].size) character arrays
+    #
+  # TODO: rewrite sieve to reuse chunks of memory
+    #
+  @@primes = [ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97 ]
 
-  def intitialize
+  def intitialize()
     #..
+    #binding.pry
   end
 
+  #brute division checking for primehood
   def brute_force (n)
     if n <= 1
       return false
@@ -40,11 +50,12 @@ class Prime
   end
 
   def sieve (n)
-    #create a boolean array
+    #create a boolean array, indexes represent the value
     sieve = Array.new(n + 1, true)
     sieve[0] = false
     sieve[1] = false
     m = Math.sqrt(n)
+    #binding.pry
 
     #recreate a for loop : for (int i = 2; i <= m; i++)
     i = 2
@@ -58,6 +69,8 @@ class Prime
       end
       i += 1
     end
+
+    #convert boolean array to array of prime #'s
     primes = []
     (n+1).times do |i|
       primes << i if sieve[i]
@@ -66,25 +79,43 @@ class Prime
 
   end
 
+  #https://primes.utm.edu/howmany.html
+  #Pierre Dusart showed that the nth prime
+    #nth prime > n * (log(n) + log( log( n-1)) )
+  def upper_bound_for_nth_prime (n)
+    return n * (Math.log(n) + Math.log(Math.log(n-1) ) )
+  end
+
+  def find_nth_prime (n)
+    number = upper_bound_for_nth_prime(n).truncate
+    loop do
+      return number if brute_force(number)
+      number -= 1
+    end
+  end
 
 end
 
-
-
 p = Prime.new()
-puts "End point for the prime search?"
-input = gets.chomp.to_i
-start = Time.now
-primes = p.sieve(input)
-elapsed = Time.now - start
-#puts primes
-puts "Total : #{primes.size}"
-puts "Execution time for sieve: #{elapsed} seconds"
+puts p.find_nth_prime(15)
 
-start = Time.now
-primes = p.brute_find(input)
-#puts p.brute_find(input)
-elapsed = Time.now - start
-#puts primes
-puts "Total : #{primes.size}"
-puts "Execution time for brute_find: #{elapsed} seconds"
+
+def test()
+  p = Prime.new()
+  puts "End point for the prime search?"
+  input = gets.chomp.to_i
+  start = Time.now
+  primes = p.sieve(input)
+  elapsed = Time.now - start
+  #binding.pry
+  #puts primes
+  puts "Total : #{primes.size}"
+  puts "Execution time for sieve: #{elapsed} seconds"
+
+  start = Time.now
+  primes = p.brute_find(input)
+  elapsed = Time.now - start
+  #puts primes
+  puts "Total : #{primes.size}"
+  puts "Execution time for brute_find: #{elapsed} seconds"
+end
