@@ -8,6 +8,7 @@
     #then n is a perfect_square
 
 #TODO : try reading and implementing some of this fancy shit later
+#TODO : try your hand at writing some test cases
 #https://betterexplained.com/articles/understanding-quakes-fast-inverse-square-root/
 
 
@@ -26,4 +27,36 @@ end
 
 def perfect_square_3?(n)
   require './prime.rb'
-  
+  p = Prime.new()
+  #use prime utility to find the array containing all of n's prime factors
+    #example
+    #p.prime_factor_decomposition( 100 ) = [2,2,5,5]
+  prime_factors = p.prime_factor_decomposition( n )
+
+  #split into two hopefully equal arrays
+  #note that prime_factors will be in ascending form
+  #Algo for this
+    #runtime O(n)
+    #check each unique value to see if there's an even amount of them
+      #if not return false
+  i = 0
+  #loop invariant prime_factors[i - 1] contains an amount of uniq values
+  while (i < prime_factors.size)
+    value = prime_factors[i]
+    count = 0
+    #loop invariant ?
+    while (i < prime_factors.size && value == prime_factors[i])
+      i += 1
+      count += 1
+    end
+    return false if count.odd?
+  end
+  return true
+end
+
+#shitty test code [true, false, true, false, true]
+#puts perfect_square_3?( 100 )
+#puts perfect_square_3?( 11 )
+#puts perfect_square_3?( 4 )
+#puts perfect_square_3?( 111 )
+#puts perfect_square_3?( 121 )
