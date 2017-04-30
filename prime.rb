@@ -13,12 +13,22 @@ class Prime
   # TODO: check whether the size of bool arrays in Ruby (B[].size) > (C[].size) character arrays
     #
   # TODO: rewrite sieve to reuse chunks of memory
+  # TODO: write a prime factor decompisition function
+  # TODO: write a function to approximate the number of primes below a given number n
+  # TODO: later make this check primes to save wasteful computations
     #
-  @@primes = [ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97 ]
+  #@primes = [ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97 ]
 
-  def intitialize()
+  def initialize()
     #..
     #binding.pry
+    @primes = [ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97 ]
+    #puts @primes
+    #puts "dank"
+  end
+
+  def list_known_primes()
+    return @primes
   end
 
   #brute division checking for primehood
@@ -94,10 +104,62 @@ class Prime
     end
   end
 
+  #improvement : you can check a number for primehood by only checking it's remainder when divided by known primes
+    #so instead of looping through every # you can loop through the primes array
+  #check for the nextPrime via brute force (god, that's so nasty)
+  def nextPrime(last_prime)
+      i = 2
+      last_prime = last_prime + 1
+      too_far = last_prime * last_prime
+      #we'll continue our search for too_far times //rewrite this later
+      #too_far.times do |z|
+      loop do         #iterate until you find a prime
+        loop do       #check last_prime for primehood
+          if last_prime == i
+            return last_prime
+          end
+          break if last_prime % i == 0
+          i = i + 1
+        end
+        i = 2
+        last_prime = last_prime + 1
+      end
+  end
+
+  def is_prime?( n )
+    (2..n - 1).each do |i|
+      return false if n % i == 0
+    end
+    return true
+  end
+
+  def prime_factor_decomposition (n)
+    prime_factors_array = []
+    #set primes to some amount
+    original_input = n
+    largest_prime = 2
+    if (is_prime? ( n) )    #brute force check here, improve later
+      prime_factors_array = [n]
+      return prime_factors_array
+    end
+
+    #loop invariant??
+    @primes.size.times do |i|
+      break if n == 1
+      break if original_input <= @primes[i]
+      while (n % @primes[i] == 0)
+        n /= @primes[i]
+        prime_factors_array << @primes[i]
+      end
+    end
+    return prime_factors_array
+
+  end
+
 end
 
-p = Prime.new()
-puts p.find_nth_prime(15)
+#p = Prime.new()
+#puts p.find_nth_prime(15)
 
 
 def test()

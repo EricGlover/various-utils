@@ -12,6 +12,10 @@ def lcm(a,b)
   return b * a / gcd(a,b)
 end
 
+#consider adding a visual squares and rectangles sort of notation
+#consider making something to convert a continued_fraction of the modern array notation into  a/b (?) (clearly wouldn't work for all reals)
+  #so why bother?
+
 #note that this doesn't work for all reals, just rationals
 #TODO : add quadratic irrational test,
 def continued_fraction(a, b)
