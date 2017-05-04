@@ -12,12 +12,33 @@ def lcm(a,b)
   return b * a / gcd(a,b)
 end
 
+def fiddle_with_Euclid_for_n(n)
+  n.times do |i|
+    puts "i = #{i}, n = #{n}, gcd(n, i) = #{gcd(n, i)}"
+    puts "i = #{i}, n = #{n}, lcm(n, i) = #{lcm(n, i)}"
+  end
+end
+
 #consider adding a visual squares and rectangles sort of notation
 #consider making something to convert a continued_fraction of the modern array notation into  a/b (?) (clearly wouldn't work for all reals)
   #so why bother?
 
 #note that this doesn't work for all reals, just rationals
-#TODO : add quadratic irrational test,
+#TODO : make this stuff work for all reals
+#TODO : make this stuff work for complex numbers as well
+
+#quadratic irrationals are things like this a + (b)^(1/2) where b is not a perfect sqaure
+  #to see if n is irrational take it's square root, pull out a , if b is not perfect^2 then n is irrational
+    #basically, the square root of any natural number n where n is not a perfect^2 is irrational
+#is the square_root of n a quadratic irration?
+  #(5) => true
+def quadratic_irrational?( n )
+  #TODO : COMPLETE THIS AT SOME POINT
+  #TODO : REMEMBER WHY I WAS WRITING THIS IN THE FIRST PLACE...
+  require './perfect_square.rb'
+  return perfect_square( n )
+end
+
 def continued_fraction(a, b)
   integers = []
   #algo, take out the integer, take the reciprocal, repeat until no remainder or a == 1 (hmm...)

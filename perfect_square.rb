@@ -7,9 +7,15 @@
   #if the set of n's prime factors can be split into two identical sets
     #then n is a perfect_square
 
-#TODO : try reading and implementing some of this fancy shit later
-#TODO : try your hand at writing some test cases
+#TODO : try reading and implementing some of this fancy shit later (for instance Newton's Method and the Quake Method )
+#TODO :   try your hand at writing some test cases
 #https://betterexplained.com/articles/understanding-quakes-fast-inverse-square-root/
+
+#this is the interface
+def perfect_square( n )
+  #until I test them later just use 3, b/c it's my favorite
+  return perfect_square_3( n )
+end
 
 
 def perfect_square_1?(n)
@@ -40,7 +46,7 @@ def perfect_square_3?(n)
     #check each unique value to see if there's an even amount of them
       #if not return false
   i = 0
-  #loop invariant prime_factors[i - 1] contains an amount of uniq values
+  #loop invariant prime_factors[i - 1] contains an even amount of uniq values
   while (i < prime_factors.size)
     value = prime_factors[i]
     count = 0
