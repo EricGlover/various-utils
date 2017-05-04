@@ -12,6 +12,10 @@ def lcm(a,b)
   return b * a / gcd(a,b)
 end
 
+#using the prime representation of numbers finding the lcm should be trivial
+  #consider writing a function to do this
+
+
 def fiddle_with_Euclid_for_n(n)
   n.times do |i|
     puts "i = #{i}, n = #{n}, gcd(n, i) = #{gcd(n, i)}"

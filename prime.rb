@@ -154,6 +154,79 @@ class Prime
 
   end
 
+  #CONSIDER changing this into a base prime thing
+    #so instead of an array you just use each spot to be the next prime and represent them all in one number
+      #maybe just use 25 or 26 primes (2 - 97) and use the alpha char set to represent them???
+        #a = 0, b = 2, c = 3, d = 5
+        #bb = 4
+        #maybe a0b2c0 = 4
+        #wait...
+          # 14 = 1,0,0,1 = a1b0c0d1 = ad ?????? ad = 14
+          #maybe do that and then just use -1
+          #so 'a' -'z' == 2 - 97
+          #a^decimal_number_indicating_the_power (-1)
+          #example ...hmmm what's...
+            #101 = 102 - 1 = [2,3,17] - 1 = [1, 1, 0, 0, 0, 0, 1] - 1 = a1b1c0d0e0f0g1 - 1 = abg - 1
+              #or set a = -1, so ach = 101, ch = 102, bbcc = 100, abbcc = 99
+  #return an array of the prime notation of n
+    #9 = [0,2]  #0 2's, 2 3's
+    #12 = [2,1] #2 2's, 1 3's
+  #TODO : fix this so it will generate more primes if need be,
+    #this should really just be a method of somekind
+  def prime_notation(n)
+    prime_array = prime_factor_decomposition(n)
+    largest_prime = prime_array.last
+    result = []
+    #@primes.each do |p|
+    i = 0
+    j = 0
+    last_iteration = @primes.index(largest_prime)
+    #amount_of_that_prime = 0
+    #run through @primes and note 0 when primes[i] isn't in prime_array
+    while i <= last_iteration
+      amount_of_that_prime = 0
+      if prime_array[j] == @primes[i]
+        #prime found
+        amount_of_that_prime += 1
+        while prime_array[j + 1] == @primes[i]
+          amount_of_that_prime += 1
+          j += 1
+        end
+        result << amount_of_that_prime
+        j += 1
+      else
+        #add a spot into the prime_notation to indicate that prime is absent
+        result << 0
+      end
+      i += 1
+    end
+    return result
+  end
+
+  #TODO : get the digits to line up properly
+  #prints out the prime notation on one line
+    #and directly below it, the prime for that spot
+  #example print_prime_notation(18)
+    #[1, 2]
+    #[2, 3]
+  def print_prime_notation(n)
+    prime_notation = prime_notation(n)
+    #puts prime_notation
+    #print out the prime_notation array on one line
+    print "["
+    (0...prime_notation.size - 1).each do |i|
+      print "#{prime_notation[i]}, "
+    end
+    print "#{prime_notation[prime_notation.size-1]}]\n"
+
+    #on the next line print out the primes that they correspond to
+    print "["
+    (0...prime_notation.size - 1).each do |i|
+      print "#{@primes[i]}, "
+    end
+    print "#{@primes[prime_notation.size-1]}]\n"
+  end
+
 end
 
 #p = Prime.new()
