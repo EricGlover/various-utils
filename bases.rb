@@ -34,6 +34,7 @@ def convert_from_decimal(number, base)
     puts "#{number} % #{multiplier} = #{number % multiplier}"
   end
 
+  #TODO :examine this further
   #why exactly does this part work?
   nums = []
   while number > 0
