@@ -10,6 +10,8 @@
 #TODO : try reading and implementing some of this fancy shit later (for instance Newton's Method and the Quake Method )
 #TODO :   try your hand at writing some test cases
 #https://betterexplained.com/articles/understanding-quakes-fast-inverse-square-root/
+#TODO : extend your perfect_square 3rd method into a nice generalized, perfect_nth_root method
+  #STATUS UPDATE : CODE FOR THIS TODO IS WRITTEN BUT UNTESTED 
 
 #this is the interface
 def perfect_square( n )
@@ -58,6 +60,26 @@ def perfect_square_3?(n)
     return false if count.odd?
   end
   return true
+end
+
+def perfect_nth_root?(number, n)
+  require './prime.rb'
+  #read the function above for an overview
+    #I'm only changing the line that checks for perfection by changing it to check for divisibility by n
+    # instead of divisibility by 2
+    prime_factors = p.prime_factor_decompisition( n )
+    i = 0
+    while ( i < prime_factors.size )
+      value = prime_factors[i]
+      count = 0
+      while ( i < prime_factors.size && value == prime_factors[i] )
+        i += 1
+        count += 1
+      end
+      return false if (count % n == 0)
+    end
+    return true
+  end
 end
 
 #shitty test code [true, false, true, false, true]
