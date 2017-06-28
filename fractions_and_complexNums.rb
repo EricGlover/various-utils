@@ -42,6 +42,8 @@ end
   #find GCD of numerator and denominator and divide each by GCD
 def simplify_fraction(a)
   gcd = gcd(a[0], a[1])
+  puts "for #{a}:"
+  puts "gcd = #{gcd}"
   a[0] /= gcd
   a[1] /= gcd
   return a
