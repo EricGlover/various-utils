@@ -29,6 +29,7 @@ const Prime = function() {
   debugger;
   // _primes = Array(100).fill(undefined).map(el => _nextPrime.next().value);
   _primes = [2];
+  //this works well-ish, not well enough for haxRax #3
   this.primeFactorDecomposition = n => {
     //check if n is prime, doing this beforehand seems inefficient
     //it's moderately efficient when setup Prime using a sieve beforehand
