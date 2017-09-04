@@ -4,6 +4,7 @@ require './gcd_lcm.rb'
 #TODO Test the complex number section
 #TODO add some utility to the complex number section
 #TODO in the distant future consider adding some stuff for the Julia and Mandelbrot Sets
+#TODO: write divide fractions 
 
 
 #FRACTIONS

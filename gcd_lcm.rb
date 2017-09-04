@@ -43,6 +43,10 @@ def quadratic_irrational?( n )
   return perfect_square( n )
 end
 
+#####################################################
+# =>  Stuff with CONTINUED FRACTIONS                #
+#####################################################
+
 def continued_fraction(a, b)
   integers = []
   #algo, take out the integer, take the reciprocal, repeat until no remainder or a == 1 (hmm...)

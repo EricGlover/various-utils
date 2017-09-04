@@ -1,0 +1,46 @@
+//testing iterators and generators
+
+//function* return an iterator
+function* counter() {
+  let count = 0;
+  while (true) {
+    yield count++;
+    console.log("counting, count = ", count);
+  }
+}
+var seq = counter();
+console.log(seq.next());
+console.log(seq.next());
+console.log(seq.next());
+console.log(seq.next());
+console.log(seq.next());
+console.log(seq.next());
+
+function* fibonacci() {
+  var fn1 = 0;
+  var fn2 = 1;
+  while (true) {
+    var current = fn1;
+    fn1 = fn2;
+    fn2 = current + fn1;
+    var reset = yield current;
+    console.log("reset = ", reset);
+    if (reset) {
+      fn1 = 0;
+      fn2 = 1;
+    }
+  }
+}
+
+// var sequence = fibonacci();
+// console.log(sequence.next().value); // 0
+// console.log(sequence.next().value); // 1
+// console.log(sequence.next().value); // 1
+// console.log(sequence.next().value); // 2
+// console.log(sequence.next().value); // 3
+// console.log(sequence.next().value); // 5
+// console.log(sequence.next().value); // 8
+// console.log(sequence.next(true).value); // 0
+// console.log(sequence.next().value); // 1
+// console.log(sequence.next().value); // 1
+// console.log(sequence.next().value); // 2
