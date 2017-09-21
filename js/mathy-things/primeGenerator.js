@@ -24,7 +24,7 @@ function* primes(maxRange = Number.MAX_SAFE_INTEGER, numberOfPrimes = 1000) {
     }
     prime = injected || ++prime;
   }
-  return new Error("JS math no good, sorry");
+  return new Error("JS no math good, sorry");
 }
 var primes = primes();
 primes.next(); //=>2
