@@ -25,7 +25,10 @@ class Node {
 }
 
 //NOTE: CONSIDER A USING THE PASS AN ITERATOR PATTERN
+//TODO: ADD CYCLE DETECTION
+//TODO: ADD MERGING TWO LISTS
 
+//NOTE: REMEMBER TO KEEP TRACK OF THE HEAD, TAIL, AND LENGTH WHEN MAKING ADDITIONS
 class LinkedList {
   constructor(data, logging = false) {
     this.head = new Node(data, null);
@@ -98,7 +101,7 @@ class LinkedList {
       return result;
     }
   }
-
+  //O(n)
   //Search the list for a node that matches some descriptions
   search(query) {
     let gen = this.listGen();
@@ -197,7 +200,7 @@ class LinkedList {
     this.log(`=============inserting=============`);
     this.steps = 0;
     let totalSteps = 0;
-    if (index === null) {
+    if (index === null || index === this._length) {
       const prevTail = this.tail;
       this.tail = new Node(data, null);
       prevTail.next = this.tail;
@@ -211,24 +214,67 @@ class LinkedList {
     this._length++;
     this.steps = totalSteps;
   }
-  //TODO: ADD REMOVAL OF NODE
   //remove a node with specified data || with a specified index
-  //NOTE : PROBLEMS WHEN REMOVING END NODES
-  //NOTE : REMOVAL BY DATA NOT IMPLEMENTED
+  //we find the matching node an, node an-1, and node an+1
+  //then set an-1.next = an+1
   removeNode(data, index) {
     let node;
     let before;
     let after;
+
+    //if we're searching by index
     if (index) {
+      //TODO: handle edge cases later
       [before, node, after] = this.findIndexes(index - 1, index, index + 1);
     } else if (data) {
+      //if we're searching by data, use this search function so that we only loop through the list once
       //TODO: improve this non-sense
-      node = this.search(data);
+      let specialSearch = query => {
+        let gen = this.listGen();
+        let iter = gen.next();
+        let currentNode;
+        let previousNode;
+        let foundMatch = false;
+        const queryKeys = Object.keys(query);
+        while (!iter.done) {
+          currentNode = iter.value;
+          foundMatch = queryKeys.every(key => {
+            return query[key] === currentNode.data[key];
+          });
+          if (foundMatch) return [previousNode, currentNode, currentNode.next];
+          previousNode = currentNode;
+          iter = gen.next();
+        }
+        return false;
+      };
+      let result = specialSearch(data);
+      if (result) {
+        [before, node, after] = result;
+      } else {
+        return null; //NODE NOT FOUND
+      }
     } else {
       return null;
     }
-    before.next = after;
-    // delete node;
+    //WE FOUND IT!
+    //remove the found node from the linked list
+    //SPECIAL CASES : 1.REMOVING THE HEAD WHEN LENGTH = 1
+    if (this._length === 1 && node == this.head) {
+      this.head = null;
+      this.tail = null;
+    } else if (node == this.head && this._length > 1) {
+      //2.REMOVING THE HEAD WHEN LENGTH > 1
+      this.head = after;
+    } else if (node == this.tail && this._length > 1) {
+      //3. REMOVING THE TAIL
+      this.tail = before;
+      before.next = null;
+    } else {
+      //REMOVING SOMETHING FROM THE MIDDLE
+      before.next = after;
+    }
+
+    this._length--;
     return true;
   }
   //cleanest way I could think of for allowing a simple flag to turn off all console.logs
@@ -253,6 +299,10 @@ const testing = () => {
   console.log("===============  Testing REMOVAL ===============");
   list.crawl();
   console.log("removing index 1 ", list.removeNode(null, 1));
+  console.log(
+    'removing entry with definition "meme generator"',
+    list.removeNode({ definition: "meme generator" })
+  );
   list.crawl();
   list.insert(new DictionaryEntry("dog", "frisbee finder"), 1);
   // list.findI(1);
