@@ -19,6 +19,8 @@ class Node {
   getTheGoods() {
     return this.data;
   }
+  //QUITE HANDY FOR PRINTING, CALLED WHEN YOU COERCE YOUR NODE TO A STRING TYPE
+  //SHOUT OUT TO WILL TIMPSON FOR THIS
   toString() {
     return `${this.data.toString()}`;
   }
@@ -26,7 +28,7 @@ class Node {
 
 //NOTE: CONSIDER A USING THE PASS AN ITERATOR PATTERN
 //TODO: ADD CYCLE DETECTION
-//TODO: ADD MERGING TWO LISTS
+//TODO: ADD MERGING TWO SORTED LISTS (why were they sorted?)
 
 //NOTE: REMEMBER TO KEEP TRACK OF THE HEAD, TAIL, AND LENGTH WHEN MAKING ADDITIONS
 class LinkedList {
@@ -37,6 +39,8 @@ class LinkedList {
     this._length = 1;
     this.steps = 0;
   }
+  //USED TO COUNT THE NUMBER OF OPERATIONS IN A VAGUE WAY
+  //JUST FOR STATS, NON-ESSENTIAL
   stepsOfLastOperation() {
     return this.steps;
   }
@@ -46,7 +50,7 @@ class LinkedList {
   //find the node at an index
   //O(n)
   findI(index) {
-    console.log("=============finding=============");
+    this.log("=============finding=============");
     let current = this.head;
     let position = 0;
     this.steps = 0;
@@ -69,7 +73,7 @@ class LinkedList {
   //TODO: write a generalized find nodes at indexes, consider using generators
   //NOTE: indexes are assumed to be in ascending order
   findIndexes(...indexes) {
-    console.log("finding indexes : ", indexes);
+    this.log("finding indexes : ", indexes);
     let iter = this.listGen();
     let nodes = [];
     let currentNode;
@@ -89,7 +93,7 @@ class LinkedList {
   }
   //O(n)
   findWord(word) {
-    console.log("=============finding=============");
+    this.log("=============finding=============");
     const query = { word: word };
     const result = this.search(query);
     if (!result) {
@@ -165,7 +169,7 @@ class LinkedList {
     }
     return string;
   }
-  //O(n), swapping in place
+  //Time: O(n), swapping in place
   reverse() {
     this.log("=============reversing=============");
     this.steps = 0;
@@ -195,7 +199,7 @@ class LinkedList {
   }
   //insert a node at the end by default
   //or specify an index to inset it at
-  //O(1) or O(n)
+  //Time: O(1) or O(n)
   insert(data, index = null) {
     this.log(`=============inserting=============`);
     this.steps = 0;
@@ -217,6 +221,7 @@ class LinkedList {
   //remove a node with specified data || with a specified index
   //we find the matching node an, node an-1, and node an+1
   //then set an-1.next = an+1
+  //Time : O(n)
   removeNode(data, index) {
     let node;
     let before;
