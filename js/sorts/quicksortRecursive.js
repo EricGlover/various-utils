@@ -3,16 +3,15 @@
 //loop through arr,
 //if arr[i] >  pivot put after pivot
 //else arr[i] is less than pivot, put before pivot
+//else arr is equal to the pivot value, stash these at the end of the unsorted array
 //now break it into sub arrs, and recurse on those
 
-//[less than pivot | pivot | greater than pivot | unsorted ]
 //[less than pivot | pivot | greater than pivot | unsorted | pivot values ]
 
 //pivot is not actually in the middle, it's the index of the first of the
 //greater than pivot section which you swap with the pivot later
 //store equal to pivot values at the end
 
-//TODO: add a equal to pivot partition
 //TODO: pick a pivot point more intelligently
 
 //not doing things in place
