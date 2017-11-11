@@ -16,6 +16,7 @@ console.log(seq.next());
 console.log(seq.next());
 console.log(seq.next());
 
+/*    fibonacci generator   */
 function* fibonacci() {
   var fn1 = 0;
   var fn2 = 1;
@@ -30,6 +31,33 @@ function* fibonacci() {
       fn2 = 1;
     }
   }
+}
+/*    fibonacci without es6 :(    */
+var fibSeqMaker = function() {
+  var prev = 1;
+  var current = 1;
+  var n = 0;
+  return function() {
+    if (n < 2) {
+      n++;
+      return 1;
+    }
+    var tmp = current;
+    current = prev + tmp;
+    prev = tmp;
+    return current;
+  };
+};
+/*    sum all odd fibs <= num */
+function sumFibs(num) {
+  var total = 0;
+  var nextFib = fibSeqMaker();
+  var current = nextFib();
+  while (current <= num) {
+    if (isOdd(current)) total += current;
+    current = nextFib();
+  }
+  return total;
 }
 
 // var sequence = fibonacci();

@@ -72,6 +72,9 @@ console.log(
 );
 
 //RIGHT TRIANGLE
+//p1 -> p2 = l1
+//p2 -> p3 = l2
+//p3 -> p1 = h
 function RightTriangle(p1, p2, p3) {
   let points = [p1, p2, p3].map(p => {
     if (!(p instanceof Point)) {
@@ -79,13 +82,21 @@ function RightTriangle(p1, p2, p3) {
     }
     return p;
   });
-  console.log(inspect(points[0]));
+  // console.log(inspect(points[0]));
   this.l1 = Math.abs(points[0].distance(points[1]));
   this.l2 = Math.abs(points[1].distance(points[2]));
   this.h = Math.abs(points[0].distance(points[2]));
   this.points = points;
 }
-RightTriangle.prototype = {};
+RightTriangle.prototype = {
+  draw: function(ctx) {
+    ctx.beginPath();
+    ctx.moveTo(this.points[0].x, this.points[0].y);
+    this.points.forEach(point => ctx.lineTo(point.x, point.y));
+    ctx.closePath();
+    ctx.stroke();
+  }
+};
 let t = new RightTriangle([0, 50], [50, 50], [50, 0]);
 //testing with a pythagorean triplet
 let t1 = new RightTriangle([0, 0], [3, 0], [3, 4]);
