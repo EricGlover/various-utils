@@ -1,5 +1,6 @@
 const util = require("util");
 
+//NOTE: try these out later
 const twoDMaker = fn => {
   return arr => {
     return arr.map((row, i) => {
