@@ -1,3 +1,42 @@
+/* HEAPS */
+
+//BINARY HEAP
+/*
+DESCRIPTION:
+heaps are trees stored in arrays
+they are useful in sorting and in implementing priority queues
+*/
+/*
+BASIC ATTRIBUTES
+*/
+
+//length , the length of the array
+//heapsize , the number of elements in a heap stored in the array
+///// heapsize <= length
+//height
+////is the longest simple path descending from the root
+///specifically the number of edges from root to lowest node
+//NOTE: indeed this makes the root at height = 0, which makes the math quite nice
+
+//parent(i)
+//leftChild(i)
+//rightChild(i)
+
+/*
+heapProperty
+A[parent(i)] >= A[i]
+*/
+
+/*
+FUNDAMENTAL OPERATIONS
+*/
+
+//HEAPIFY : O(lg n)
+//BUILD-HEAP : O( n )
+//HEAPSORT
+//EXTRACT-MAX
+//INSERT
+//REMOVE
 const util = require("util");
 const log = x => console.log(util.inspect(x));
 
@@ -73,16 +112,6 @@ Heap.prototype = {
       this.heapify(i);
     }
   },
-  sort: function() {
-    let sorted = [];
-    while (!this.isEmpty()) {
-      sorted.push(this.pop());
-    }
-    return sorted;
-  },
-  isEmpty: function() {
-    return this.heapSize > 0 ? false : true;
-  },
   // //TODO: rewrite
   remove: function(value) {
     let idx = this.find(value);
@@ -126,15 +155,13 @@ Heap.prototype = {
   //remove the root element
   pop: function() {
     if (this.heapSize < 1) return null;
+    let top = this.arr[1];
+    this.arr[1] = this.arr[this.heapSize];
+    // this.arr[1] = this.arr.pop();
     this.heapSize--;
     this.length--;
     this.setHeight();
-    if (this.heapSize === 0) return this.arr.pop();
-    let top = this.arr[1];
-    // this.arr[1] = this.arr[this.heapSize];
-    this.arr[1] = this.arr.pop();
     this.heapify(1);
-    return top;
   },
   insert: function(value) {
     this.heapSize++;
@@ -157,12 +184,6 @@ Heap.prototype = {
     return this.arr.slice(first, last + 1);
   },
   setHeight: function() {
-    if (this.heapSize === 0) {
-      this.height = 0;
-      return;
-    } else if (this.heapSize < 0) {
-      throw new Error("heapsize < 0");
-    }
     this.height = Math.floor(Math.log2(this.heapSize));
   },
   getHeight: function() {
@@ -176,31 +197,11 @@ Heap.prototype = {
       log(this.getLevel(i));
     }
   },
-  peek: function() {
+  peak: function() {
     return this.arr[1];
   }
 };
-function processData(input) {
-  let str = input.split("\n");
-  let n = Number.parseInt(str[0].split(" ")[0]);
-  let k = Number.parseInt(str[0].split(" ")[1]);
-  let heap = new Heap(x => -x);
-  let cookieStr = str[1];
-  let cookies = cookieStr.split(" ").map(str => Number.parseInt(str));
-  heap.buildHeap(cookies);
-  let operations = 0;
-  while (heap.peek() < k) {
-    let least = heap.pop();
-    let second = heap.pop();
-    if (least === null || second === null) {
-      console.log(-1);
-      return;
-    }
-    heap.insert(least + second * 2);
-    operations++;
-  }
-  console.log(operations);
-}
+
 const test = () => {
   let h = new Heap();
   h.buildHeap([1, 2, 7, 9, 16, 10, 3, 8, 14, 4]);
@@ -212,4 +213,4 @@ const test = () => {
   // h.remove(10);
   // h.printTree();
 };
-// test();
+test();

@@ -14,9 +14,16 @@ const getIdx = level => {
   }
   return idx - 1;
 };
+// const sumToN = n => n * (n + 1) / 2;
+const idxForH = h => {
+  return 2 ** h;
+};
 // console.log(getIdx(0));
 // console.log(getIdx(1));
 // console.log(getIdx(2));
+// console.log(idxForH(0));
+// console.log(idxForH(1));
+// console.log(idxForH(2));
 
 BinaryHeap.prototype = {
   push: function(element) {
@@ -25,18 +32,18 @@ BinaryHeap.prototype = {
     // Allow it to bubble up.
     this.bubbleUp(this.content.length - 1);
   },
-  print: function() {
-    let level = 0;
-    var str = "";
-    for (let i = 0; i < this.content.length; i++) {
-      str += " " + this.content[i];
-      if (getIdx(level) === i) {
-        str += "\n";
-        level++;
-      }
-    }
-    console.log(str);
-  },
+  // print: function() {
+  //   let level = 0;
+  //   var str = "";
+  //   for (let i = 0; i < this.content.length; i++) {
+  //     str += " " + this.content[i];
+  //     if (getIdx(level) === i) {
+  //       str += "\n";
+  //       level++;
+  //     }
+  //   }
+  //   console.log(str);
+  // },
   pop: function() {
     // Store the first element so we can return it later.
     var result = this.content[0];

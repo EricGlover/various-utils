@@ -45,7 +45,7 @@ Heap.prototype = {
       greatest = leftIdx;
     }
     if (
-      leftIdx <= this.heapSize &&
+      rightIdx <= this.heapSize &&
       this.scoreFunction(this.arr[rightIdx]) >
         this.scoreFunction(this.arr[greatest])
     ) {
@@ -180,36 +180,35 @@ Heap.prototype = {
     return this.arr[1];
   }
 };
-function processData(input) {
-  let str = input.split("\n");
-  let n = Number.parseInt(str[0].split(" ")[0]);
-  let k = Number.parseInt(str[0].split(" ")[1]);
-  let heap = new Heap(x => -x);
-  let cookieStr = str[1];
-  let cookies = cookieStr.split(" ").map(str => Number.parseInt(str));
-  heap.buildHeap(cookies);
-  let operations = 0;
-  while (heap.peek() < k) {
-    let least = heap.pop();
-    let second = heap.pop();
-    if (least === null || second === null) {
-      console.log(-1);
-      return;
-    }
-    heap.insert(least + second * 2);
-    operations++;
-  }
-  console.log(operations);
-}
+
 const test = () => {
   let h = new Heap();
   h.buildHeap([1, 2, 7, 9, 16, 10, 3, 8, 14, 4]);
-  h.printTree();
+  // h.printTree();
   // h.pop();
   // h.printTree();
   // h.insert(100);
   // h.printTree();
   // h.remove(10);
   // h.printTree();
+  // pop();
+  sort();
 };
-// test();
+const sort = () => {
+  let descending = new Heap();
+  descending.buildHeap([1, 2, 7, 9, 16, 10, 3, 8, 14, 4]);
+  console.log(descending.sort());
+  let ascending = new Heap(x => -x);
+  ascending.buildHeap([1, 2, 7, 9, 16, 10, 3, 8, 14, 4]);
+  console.log(ascending.sort());
+};
+const pop = () => {
+  let h = new Heap();
+  h.buildHeap([1, 2, 3]);
+  h.printTree();
+  while (h.pop()) {
+    h.printTree();
+  }
+  h.printTree();
+};
+test();

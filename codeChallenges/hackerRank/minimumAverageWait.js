@@ -1,3 +1,4 @@
+/* MINIMUM AVERAGE WAIT TIME PROBLEM HAXRAX */
 const util = require("util");
 const log = x => console.log(util.inspect(x));
 
@@ -34,7 +35,6 @@ Heap.prototype = {
   heapify: function(i) {
     let leftIdx = this.leftChild(i);
     let rightIdx = this.rightChild(i);
-
     //here we check the heapProperty
     //find the greatest of the children
     let greatest = i;
@@ -45,7 +45,7 @@ Heap.prototype = {
       greatest = leftIdx;
     }
     if (
-      leftIdx <= this.heapSize &&
+      rightIdx <= this.heapSize &&
       this.scoreFunction(this.arr[rightIdx]) >
         this.scoreFunction(this.arr[greatest])
     ) {
@@ -180,36 +180,52 @@ Heap.prototype = {
     return this.arr[1];
   }
 };
-function processData(input) {
-  let str = input.split("\n");
-  let n = Number.parseInt(str[0].split(" ")[0]);
-  let k = Number.parseInt(str[0].split(" ")[1]);
-  let heap = new Heap(x => -x);
-  let cookieStr = str[1];
-  let cookies = cookieStr.split(" ").map(str => Number.parseInt(str));
-  heap.buildHeap(cookies);
-  let operations = 0;
-  while (heap.peek() < k) {
-    let least = heap.pop();
-    let second = heap.pop();
-    if (least === null || second === null) {
-      console.log(-1);
-      return;
-    }
-    heap.insert(least + second * 2);
-    operations++;
-  }
-  console.log(operations);
+
+function Customer(str) {
+  let arr = str.split(" ").map(str => Number.parseInt(str));
+  this.t = arr[0];
+  this.l = arr[1];
 }
-const test = () => {
-  let h = new Heap();
-  h.buildHeap([1, 2, 7, 9, 16, 10, 3, 8, 14, 4]);
-  h.printTree();
-  // h.pop();
-  // h.printTree();
-  // h.insert(100);
-  // h.printTree();
-  // h.remove(10);
-  // h.printTree();
-};
-// test();
+//n = number of customers
+//t l ; t = time they entered the shop
+// l = length of time to complete the order
+function processData(inputStr) {
+  let arr = inputStr.split("\n");
+  let n = Number.parseInt(arr[0]);
+  let customers = arr.splice(1).map(str => new Customer(str));
+  //sort customers by time entering the shop
+  //in descending order so we can pop them off to get the min
+  customers.sort((a, b) => b.t - a.t);
+  //make a priority queue with a heap
+  let queue = new Heap(customer => -customer.l);
+  //increment time to the time somebody walks in the shop
+  let time = customers[customers.length - 1].t;
+  let totalWaitTime = 0;
+  //do order loop
+  while (customers.length > 0 || !queue.isEmpty()) {
+    //update the heap to contain all customers
+    //currently in the shop
+    while (customers.length > 0 && customers[customers.length - 1].t <= time) {
+      queue.insert(customers.pop());
+    }
+    //get the next order from the min queue
+    let next = queue.pop();
+    if (next === null) {
+      //skip forward in time to when someone enters the shop
+      time = customers[customers.length - 1].t;
+      continue;
+    }
+    //add their wait time
+    totalWaitTime += time - next.t + next.l;
+    //do the order
+    time += next.l;
+  }
+  //all orders complete
+  console.log(Math.floor(totalWaitTime / n));
+}
+processData(`5
+961148050 385599125
+951133776 376367013
+283280121 782916802
+317664929 898415172
+980913391 847912645`);
