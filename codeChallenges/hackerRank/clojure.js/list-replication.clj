@@ -7,3 +7,26 @@
  (defn rep [num lst] (dotimes [i num] ()))
 
  (rep 1 '(1 2 3))
+
+
+(defn replic [num lst] (map #(repeat num %) lst) )
+(replic 2 '(1 2 3))
+
+(defn t [num lst]
+  (->>
+    (map #(repeat num %) lst)
+    (flatten)
+  )
+)
+;; answer
+(fn [num lst]
+  (flatten (map #(repeat num %) lst) )
+)
+;; answer 
+(t 2 '(1 2 3))
+(defn replic [num lst]
+  ())
+
+(replic 2 '(1 2 3))
+ ;(fn[num lst]___________________________)
+ (defn replic )
