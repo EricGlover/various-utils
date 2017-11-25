@@ -1,9 +1,9 @@
 //depends on LinkedList
 //depends on Queue
-const { Queue } = require("../Queues/willQueue");
-const { LinkedList } = require("../linkedLists/linkedList3");
+const { Queue } = require("./queue");
+const { LinkedList } = require("./linkedList");
 
-////
+//
 class EdgeNode {
   constructor(from, to, weight) {
     this.to = to;
