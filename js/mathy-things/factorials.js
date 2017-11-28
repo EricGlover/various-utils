@@ -6,6 +6,13 @@ const factorial = n => {
   }
   return fact;
 };
+// function factorialize(n) {
+//   var fact = 1;
+//   for (var i = 1; i <= n; i++) {
+//     fact *= i;
+//   }
+//   return fact;
+// }
 //4! / 2!  n = 4, d = 2
 const factorialFraction = (n, d) => {
   let fact = 1;

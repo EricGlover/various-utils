@@ -1,4 +1,5 @@
 "use strict";
+const assert = require("assert");
 //n astronauts
 //given a list of astronauts pairs (that are from the same country)
 //find the number of ways to select a pair of astronauts from different
@@ -99,6 +100,37 @@ const pairings = (n, cArr) => {
   }
   return pairs;
 };
+/*
+n!
+-----
+k! (n - k)!
+*/
+//sloppy
+const factorial = n => {
+  let fact = 1;
+  for (let i = 2; i < n + 1; i++) {
+    fact *= i;
+  }
+  return fact;
+};
+const choose2 = n => {
+  // if (n < k) return 0;
+  // if (k === n) return 1;
+  // let answer = factorial(n) / (factorial(k) * factorial(n - k));
+  // // assert.ok(Number.isFinite(answer)); //sometimes this throws errors
+  // return answer;
+  //the above can be simplified into this line
+  return n * (n - 1) / 2;
+};
+const problemSolutionPairing = (n, cArr) => {
+  let totalPairs = choose2(n, 2);
+  let repeats = 0;
+  // console.log(n, cArr);
+  for (let i = 0; i < cArr.length; i++) {
+    repeats += choose2(cArr[i].length, 2);
+  }
+  return totalPairs - repeats;
+};
 
 function processData(input) {
   const str = input.split("\n");
@@ -110,7 +142,7 @@ function processData(input) {
   if (p > 1) {
     let g = makeAdj(edges, n);
     let countries = arrayOption(g);
-    console.log(pairings(n, countries));
+    console.log(problemSolutionPairing(n, countries));
   } else if (p === 1) {
     let countries = Array(n - 1).fill(1);
     countries[0] = 2;
@@ -201,4 +233,10 @@ const pairings = cArr => {
   return total / 2;
 };
 
+*/
+
+/*
+editorial
+This problem can be thought of as a graph problem. The very first step is to compute how many different countries are there. For this, we apply Depth First Search to calculate how many different connected components are present in the graph where the vertices are represented by the people and the people from the same country form one connected component. After we get how many connected components are present, say M, we just need to calculate the number of ways of selecting two persons from two different connected component. Let us assume that component i contains Mi people. So, for the number of ways selecting two persons from different components, we subtract the number of ways of selecting two persons from the same component from the total numbers of ways of selecting two persons i.e.
+Ways = N choose 2 - (∑(Mi Choose 2) for i = 1 to M)
 */
