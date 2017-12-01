@@ -14,7 +14,7 @@ function methodOne(arr) {
     current++;
   }
   return arr.reduce(function(total, num) {
-    return (total += num);
+    return total + num;
   }, 0);
 }
 
@@ -26,7 +26,7 @@ function sumToN(n) {
 // you have a sequence a ... b
 // example: 3, 4, 5
 // since you can find the sum of a sequence 1 ... n in O(1) time
-// it makes some sense to use that fact to find 3 + 4 + 5 in O(1) time
+// you can use that fact to find 3 + 4 + 5 in O(1) time
 // so you take the sum of the sequence 1 ... 5 - the sum of the sequence 1 ... 2
 // to give you the sum of 3 ... 5 in O(1) time
 var methodTwo = function(arr) {
