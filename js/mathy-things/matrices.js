@@ -205,3 +205,10 @@ const test = () => {
   testMultM();
 };
 test();
+module.exports = {
+  transposeM,
+  addMatrices,
+  subtractMatrices,
+  scaleMatrix,
+  multMatrices
+};
