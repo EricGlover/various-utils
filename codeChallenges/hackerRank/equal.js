@@ -34,6 +34,23 @@ const addCandies = (add, arr, index) => {
   });
   return arr;
 };
+//start
+// [2, 2, 3, 7]
+// ///seven solutions
+// [3, 3, 4, 7]
+// [4, 4, 5, 7]
+// [7, 7, 8, 7]
+// //
+// [3, 3, 4, 7]
+// [4, 4, 5, 7]
+// [7, 7, 8, 7]
+//   [8, 8, 8, 8]
+// //start
+// [2, 5, 5, 5, 5, 5]
+// //
+// [3, 6, 6, 6, 6, 5]
+// [2, 5, 5, 5, 5, 5]
+// [2, 5, 5, 5, 5, 5]
 
 const equal = (n, candies) => {
   if (candies.length < 2) return 0;

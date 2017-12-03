@@ -1,14 +1,25 @@
 const util = require("util");
 const assert = require("assert");
+const print = matrix => {
+  console.log("printing matrix");
+  matrix.forEach(row => console.log(row));
+  console.log("=====================");
+};
 
 /*
 MATRIX OPERATIONS
 TRANSPOSE
+INVERSE
+DETERMINANT
 ADDITION
 SUBTRACTION
 SCALAR MULTIPLICATION
 MULTIPLICATION
+DIVISION
 */
+//what or why IDK but here it is
+//IDENTITY MATRIX
+const I = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
 
 //Aij => Aji
 const transposeM = m => {
@@ -38,7 +49,7 @@ const subtractMatrices = (m1, m2) => {
 };
 //TODO: TEST
 const scaleMatrix = (scalar, m) => {
-  return m1.map(row => row.map(el => el * scalar));
+  return m.map(row => row.map(el => el * scalar));
 };
 
 /*  helper functions for multiplying matrices   */
@@ -85,18 +96,29 @@ const multMatrices = (m1, m2) => {
   }
   return result;
 };
-
-const print = matrix => {
-  console.log("printing matrix");
-  matrix.forEach(row => console.log(row));
-  console.log("=====================");
-};
-
-//TODO : write an N - Dimensional Equality checker
-
+//
+// const print = matrix => {
+//   console.log("printing matrix");
+//   matrix.forEach(row => console.log(row));
+//   console.log("=====================");
+// };
+// const t = () => {
+//   const m = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+//   print(m);
+//   for (let j = 0; j < m[0].length; j++) {
+//     //make a new matrix
+//     //dont include the first row
+//     let subM = m.slice(1).map(row => {
+//       //don't include the jth col
+//       return row.slice(0, j).concat(row.slice(j + 1));
+//     });
+//     print(subM);
+//   }
+// };
+// t();
 //1 dimension
 const equal1d = (a1, a2) => {
-  if (a1.length === a2.length && a1[0].length === a2[0].length) {
+  if (a1.length === a2.length) {
     return a1.every((el, i) => el === a2[i]);
   }
   return false;
@@ -125,6 +147,92 @@ const equal = (m1, m2) => {
   }
   //////
 };
+
+/*
+DETERMINANT of m
+formula :
+| m | (determinant of m)
+loop over m[0][j]
+  m[0][j] * |m[1][0] ... m[n][j]| * (j + 2) * -1
+          //this matrix is all the cols without j
+                                  //this sets the first to be pos, and then alternates
+*/
+const determinant = m => {
+  let d = 0;
+  if (m.length === 2 && m[0].length === 2) {
+    //[a, b]      // a * d - b * c
+    //[c, d]
+    return m[0][0] * m[1][1] - m[0][1] * m[1][0];
+  }
+  for (let j = 0; j < m[0].length; j++) {
+    //make a new matrix
+    //dont include the first row
+    let subM = m.slice(1).map(row => {
+      //don't include the jth col
+      return row.slice(0, j).concat(row.slice(j + 1));
+    });
+    //print(subM);
+    d += m[0][j] * determinant(subM) * Math.pow(-1, j);
+  }
+  return d;
+};
+const minor = m => {
+  return m.map((row, i) => {
+    return row.map((el, j) => {
+      //find determinant of sub matrix that doesn't include row i or col j
+      let subM = m
+        .slice(0, i)
+        .concat(m.slice(i + 1))
+        .map(row => {
+          return row.slice(0, j).concat(row.slice(j + 1));
+        });
+      // print(subM);
+      return determinant(subM);
+    });
+  });
+};
+//return the multiplicative inverse of m
+//using the minors, cofactors, adjugate, and determinant method
+//step 1 calculate minor(m)
+//step 2 : calculate cofactors from minors
+//step 3 : transpose cofactors to obtain the adjugate
+//step 4 : find the determinant
+//step 5 : multiply step 4 by the determinant
+const inverse = m => {
+  // console.log("finding inverse of");
+  // print(m);
+  //step 4, find determinant
+  //(done early for a possible early return)
+  const d = determinant(m);
+  // console.log(`determinant = ${d}`);
+  //if determinant is 0 then m is singular
+  //and can't be inverted (I believe)
+  if (d === 0) return undefined;
+  //step 1 calculate minor(m)
+  const minorM = minor(m);
+  // console.log("minor = ");
+  // print(minorM);
+  const cofactor = minorM.map((row, i) =>
+    row.map((el, j) => {
+      let idx = i * minorM[0].length + j;
+      return el * Math.pow(-1, idx);
+    })
+  );
+  // console.log("cofactor = ");
+  // print(cofactor);
+  let t = transposeM(cofactor);
+  // console.log("transpose = ");
+  // print(t);
+  //TODO : FIX THE FLOATING POINT ERRORS HERE (1 / d)
+  return scaleMatrix(1 / d, t);
+};
+//TODO : TEST THIS
+const divideMatrices = (m1, m2) => {
+  let inverse = inverse(m2);
+  if (!inverse) return undefined;
+  return multMatrices(m1, inverse);
+};
+
 const testColumn = () => {
   const a = [[1, 2, 3], [4, 5, 6]];
   const a0 = [1, 4];
@@ -192,6 +300,41 @@ const testMultM = () => {
   // print(m);
   assert.ok(equal(m, ans));
 };
+const testDeterminant = () => {
+  const m = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+  let res = determinant(m);
+  console.log(res); //0 ?
+  const m1 = [[4, 6], [3, 8]];
+  const a1 = determinant(m1); //14
+  assert.equal(a1, 14);
+  //−306
+};
+const testMinor = () => {
+  const m = [[3, 0, 2], [2, 0, -2], [0, 1, 1]];
+  const a0 = [[2, 2, 2], [-2, 3, 3], [0, -10, 0]];
+  // console.log("finding minor of ");
+  // print(m);
+  const res = minor(m);
+  // console.log(a0);
+  // console.log(res);
+  assert.ok(equal(a0, res));
+};
+
+const testInverse = () => {
+  //by definition M * M ^ -1  = Identity
+  const m = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+  const m0 = [[3, 0, 2], [2, 0, -2], [0, 1, 1]];
+  const inverseM = inverse(m);
+  const inverseM0 = inverse(m0);
+  const ans0 = [[0.2, 0.2, 0], [-0.2, 0.3, 1], [0.2, -0.3, 0]];
+  // console.log("inverting m0");
+  // print(m0);
+  // console.log("inverse = ");
+  // print(inverseM0);
+  const res = multMatrices(inverseM0, m0);
+  assert.ok(equal(res, I));
+  // assert.ok(equal(ans0, inverseM0));     //fails due to JS math errors
+};
 const test = () => {
   const m1 = [[1, 2, 3], [9, 9, 9]];
   const m2 = [[3, 2], [7, 7, 7, 7]];
@@ -203,6 +346,9 @@ const test = () => {
   testAdd(m1, m2);
   testTranspose();
   testMultM();
+  testDeterminant();
+  testMinor();
+  testInverse();
 };
 test();
 module.exports = {
