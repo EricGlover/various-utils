@@ -8,14 +8,15 @@ const print = matrix => {
 
 /*
 MATRIX OPERATIONS
+=================================
 TRANSPOSE
 INVERSE
 DETERMINANT
 ADDITION
 SUBTRACTION
 SCALAR MULTIPLICATION
-MULTIPLICATION
-DIVISION
+MULTIPLICATION of two matrices
+DIVISION of two matrices 
 */
 //what or why IDK but here it is
 //IDENTITY MATRIX
@@ -278,10 +279,10 @@ const testTranspose = () => {
   const m = [[1, 2, 3], [9, 9, 9]];
   const m2 = [[3, 2], [7, 7, 7, 7]];
   // console.log(`transposing \n${util.inspect(m1)}`);
-  print(m1);
+  // print(m1);
   let t = transposeM(m1);
   // console.log(util.inspect(t));
-  print(t);
+  // print(t);
   const m3 = [[0, 4], [7, 0], [3, 1]];
   const a3 = [[0, 7, 3], [4, 0, 1]];
   let ans = transposeM(m3);
@@ -302,21 +303,16 @@ const testMultM = () => {
 };
 const testDeterminant = () => {
   const m = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
-  let res = determinant(m);
-  console.log(res); //0 ?
+  let res = determinant(m); // 0
+  assert.equal(res, 0);
   const m1 = [[4, 6], [3, 8]];
   const a1 = determinant(m1); //14
   assert.equal(a1, 14);
-  //−306
 };
 const testMinor = () => {
   const m = [[3, 0, 2], [2, 0, -2], [0, 1, 1]];
   const a0 = [[2, 2, 2], [-2, 3, 3], [0, -10, 0]];
-  // console.log("finding minor of ");
-  // print(m);
   const res = minor(m);
-  // console.log(a0);
-  // console.log(res);
   assert.ok(equal(a0, res));
 };
 
@@ -324,13 +320,10 @@ const testInverse = () => {
   //by definition M * M ^ -1  = Identity
   const m = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
   const m0 = [[3, 0, 2], [2, 0, -2], [0, 1, 1]];
-  const inverseM = inverse(m);
+  const inverseM = inverse(m); //should return undefined because determinant is 0
+  assert.equal(inverseM, undefined);
   const inverseM0 = inverse(m0);
   const ans0 = [[0.2, 0.2, 0], [-0.2, 0.3, 1], [0.2, -0.3, 0]];
-  // console.log("inverting m0");
-  // print(m0);
-  // console.log("inverse = ");
-  // print(inverseM0);
   const res = multMatrices(inverseM0, m0);
   assert.ok(equal(res, I));
   // assert.ok(equal(ans0, inverseM0));     //fails due to JS math errors
@@ -356,5 +349,9 @@ module.exports = {
   addMatrices,
   subtractMatrices,
   scaleMatrix,
-  multMatrices
+  multMatrices,
+  divideMatrices,
+  determinant,
+  minor,
+  inverse
 };
