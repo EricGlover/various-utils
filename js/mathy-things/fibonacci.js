@@ -1,3 +1,35 @@
+//testing class iterators
+//pretty dope af
+class Fibonacci {
+  constructor() {
+    this.current = 1;
+    this.last = 0;
+  }
+  *[Symbol.iterator]() {
+    while (true) {
+      let tmp = this.current;
+      this.current = this.current + this.last;
+      this.last = tmp;
+      yield this.last;
+    }
+  }
+}
+//
+// let fib = new Fibonacci();
+// let i = 0;
+// for (let f of fib) {
+//   console.log(f);
+//   i++;
+//   if (i > 3) break;
+// }
+// console.log("next");
+// i = 0;
+// for (let f of fib) {
+//   console.log(f);
+//   i++;
+//   if (i > 3) break;
+// }
+
 //testing iterators and generators
 
 //function* return an iterator
@@ -8,13 +40,13 @@ function* counter() {
     console.log("counting, count = ", count);
   }
 }
-var seq = counter();
-console.log(seq.next());
-console.log(seq.next());
-console.log(seq.next());
-console.log(seq.next());
-console.log(seq.next());
-console.log(seq.next());
+// var seq = counter();
+// console.log(seq.next());
+// console.log(seq.next());
+// console.log(seq.next());
+// console.log(seq.next());
+// console.log(seq.next());
+// console.log(seq.next());
 
 /*    fibonacci generator   */
 function* fibonacci() {
