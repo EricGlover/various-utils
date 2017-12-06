@@ -1,3 +1,9 @@
+const t = () => {
+  let [a, b] = [1, 2].map(num => num + 1);
+  console.log(a, b);
+};
+t();
+
 // const minOperations = (a, b) => {
 //   let operations = {
 //     1: 0,
