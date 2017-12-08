@@ -22,16 +22,7 @@ const onlyLuckyNumbers = num => {
 // console.log(onlyLuckyNumbers(4747));
 // console.log(onlyLuckyNumbers(74747));
 // console.log(onlyLuckyNumbers(747147));
-// console.log(onlyLuckyNumbers(44770));
-
-const equalFrequency = num => {
-  const letters = { "4": 0, "7": 0 };
-  String(num)
-    .split("")
-    .forEach(char => letters[char]++);
-  console.log(letters);
-  return letters["4"] === letters["7"] ? true : false;
-};
+// console.log(o]
 //
 /* test code */
 // console.log(equalFrequency());
