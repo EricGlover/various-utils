@@ -16,7 +16,7 @@ ADDITION
 SUBTRACTION
 SCALAR MULTIPLICATION
 MULTIPLICATION of two matrices
-DIVISION of two matrices 
+DIVISION of two matrices
 */
 //what or why IDK but here it is
 //IDENTITY MATRIX
@@ -148,6 +148,42 @@ const equal = (m1, m2) => {
   }
   //////
 };
+/* bundled version for easy exporting */
+/* IIFE for making the equal function
+used to allow for equal1d and equal2d to be internal methods
+NO NAMESPACE POLLUTION TODAY I SAY! */
+// const equal = (() => {
+//   const equal1d = (a1, a2) => {
+//     if (a1.length === a2.length) {
+//       return a1.every((el, i) => el === a2[i]);
+//     }
+//     return false;
+//   };
+//   //2 Dimensions
+//   const equal2d = (m1, m2) => {
+//     //rows and cols need to be equal
+//     if (m1.length === m2.length && m1[0].length === m2[0].length) {
+//       return m1.every((row, i) => row.every((el, j) => el === m2[i][j]));
+//     }
+//     return false;
+//   };
+//   return (m1, m2) => {
+//     //find dimensions
+//     let d = 0;
+//     let current = m1;
+//     while (current instanceof Array) {
+//       d++;
+//       current = current[0];
+//     }
+//     //pass to appropriate equal function
+//     if (d === 1) {
+//       return equal1d(m1, m2);
+//     } else if (d === 2) {
+//       return equal2d(m1, m2);
+//     }
+//     //////
+//   };
+// })();
 
 /*
 DETERMINANT of m

@@ -323,16 +323,6 @@ const idkman = arr => {
 //optimal is now [i ... k]
 //else optimal is now [k, k]
 
-def max_sum_subarray(a, n):
-    f[0..n-1]
-    f[0] = a[0]
-    ans = f[0]
-    for i from 1 to n-1:
-        f[i] = max(a[i], f[i-1] + a[i])
-        ans = max(ans, f[i])
-    return ans
-
-
 [1, -1, -1, 2, -10, 7, 3, 1];
 [1, -1, -1, 2, -10, 3, 7, 1];
 
@@ -351,6 +341,32 @@ def max_sum_subarray(a, n):
 // 1858534 172083036 dp's answer
 // time : 0:8:48:306
 const a = require("./testCase");
+/*
+def max_sum_subarray(a, n):
+    f[0..n-1]
+    f[0] = a[0]
+    ans = f[0]
+    for i from 1 to n-1:
+        f[i] = max(a[i], f[i-1] + a[i])
+        ans = max(ans, f[i])
+    return ans
+    */
+const solution = arr => {
+  const prev = Array(arr.length);
+  prev[0] = arr[0];
+  let answer = arr[0];
+  let seqSum = arr[0];
+  for (let i = 1; i < arr.length; i++) {
+    prev[i] = Math.max(arr[i], prev[i - 1] + arr[i]);
+    answer = Math.max(prev[i], answer);
+    if (seqSum > 0) {
+      seqSum += Math.max(arr[i], 0);
+    } else {
+      seqSum = Math.max(arr[i], seqSum);
+    }
+  }
+  return [answer, seqSum];
+};
 
 const test = (input, runBrute = true, runDP = true, runIDK = true) => {
   const timer = new Timer();
