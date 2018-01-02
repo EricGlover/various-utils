@@ -1,19 +1,33 @@
-const group = chars => {
-  let str = "";
-  for (let i = 0; i < chars.length; i++) {
-    str += chars[i];
-    if (i + 1 % 4 === 0) str += " ";
-  }
-  return str;
+const makeRot13GoCipher = () => {
+  str = "map[string]string{";
+  const input = `ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`;
+  const output = `NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm`;
+  res = input
+    .split("")
+    .map((char, i) => {
+      return `${output[i].charCodeAt(0)}: ${char.charCodeAt(0)},`;
+    })
+    .join("");
+  console.log(str + res + "}");
 };
-const print = str => {
-  let arr = str.split("").filter(char => /[0-9]/.test(char));
-  if (arr.length > 12) return group(arr);
-  return arr.reduce(
-    (str, char, i) => (i + 1 % 3 === 0 ? (str += ` ${char}`) : (str += char))
-  );
-};
-console.log(print("100a"));
+makeRot13GoCipher();
+
+// const group = chars => {
+//   let str = "";
+//   for (let i = 0; i < chars.length; i++) {
+//     str += chars[i];
+//     if (i + 1 % 4 === 0) str += " ";
+//   }
+//   return str;
+// };
+// const print = str => {
+//   let arr = str.split("").filter(char => /[0-9]/.test(char));
+//   if (arr.length > 12) return group(arr);
+//   return arr.reduce(
+//     (str, char, i) => (i + 1 % 3 === 0 ? (str += ` ${char}`) : (str += char))
+//   );
+// };
+// console.log(print("100a"));
 // const t = () => {
 //   let [a, b] = [1, 2].map(num => num + 1);
 //   console.log(a, b);
