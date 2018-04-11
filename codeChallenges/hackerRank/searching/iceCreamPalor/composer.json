@@ -1,0 +1,13 @@
+{
+    "name": "ericglover/ice-cream-palor",
+    "authors": [
+        {
+            "name": "Eric Glover",
+            "email": "etgt28@mail.missouri.edu"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^6"
+    }
+}
