@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
 function main($stdin, $n){
   $lines = [];
+
   for($i = 0; $i < $n; $i++){
     $str = getLine($stdin);
     $arr = readCommand($str);
@@ -11,14 +13,14 @@ function main($stdin, $n){
           $q = $arr[1];
           $b = $q;
           $line2 = [0, $b];
-          //for loop it 
+          //for loop it
           $total = 0;
-          for($i = 0; $i < count($lines); $i++){
-            if($line[$i] === null || $line[$i][0] === null || $line[$i][1] === null){
+          for($j = 0; $j < count($lines); $j++){
+            if($lines[$j] === null || $lines[$j][0] === null || $lines[$j][1] === null){
               continue;
             }
             //the order of the lines matters in this function
-            $intersects = lineIntersectionAtIntX([$line[$i][0], $line[$i][1]], $line2);
+            $intersects = lineIntersectionAtIntX([$lines[$j][0], $lines[$j][1]], $line2);
             if($intersects) {
               $total++;
             }
@@ -66,7 +68,7 @@ function main($stdin, $n){
     }
   }
 }
-function lineIntersectionAtIntX(&$line1, &$line2): bool
+function lineIntersectionAtIntX($line1, $line2): bool
 {
   list($m1, $b1) = $line1;
   list($m2, $b2) = $line2;
@@ -76,7 +78,7 @@ function lineIntersectionAtIntX(&$line1, &$line2): bool
 
 function getLine($resource): string {
   if(! feof($resource) ){
-    $line = fgets($fptr);
+    $line = fgets($resource);
     $line = trim($line);
     return $line;
   }
@@ -108,32 +110,10 @@ function readCommand(string $str): array
         return [];
   }
 }
+$stdin = fopen("php://stdin", "r");
 
-// function lineIntersectionAtIntX($line1, $line2): bool
-// {
-//   list($m1, $b1) = $line1;
-//   list($m2, $b2) = $line2;
-//   $x = ($b2 - $b1) / $m1;
-//   return is_int($x);
-// }
+fscanf($stdin, "%d\n", $n);
 
-//where $m2 = 0
-function lineIntersection($line1, $line2): array
-{
-  list($m1, $b1) = $line1;
-  list($m2, $b2) = $line2;
-  $x = ($b2 - $b1) / $m1;
-  $y = $b2;
-  return [$x, $y];
-}
+main($stdin, $n);
 
-
-//
-//
-// $stdin = fopen("php://stdin", "r");
-//
-// fscanf($stdin, "%d\n", $n);
-//
-// dynamicLineIntersection($n);
-//
-// fclose($stdin);
+fclose($stdin);

@@ -2,13 +2,27 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\testCase;
 
-require ("./DynamicLineIntersection.php");
+// require ("./DynamicLineIntersection.php");
+require ("./hashIt.php");
 
 final class DynamicLineIntersectionTest extends TestCase
 {
-  public function testReadCommand()
+  public function testCanSubtract()
+  {
+    $fileName = "./lines/2.txt";
+    $stdin = fopen($fileName, "r");
+    fscanf($stdin, "%d\n", $n);
+    echo "\n";
+    ob_start();
+    main($stdin, $n);
+    $result = ob_get_clean();
+    $expected = "0\n1\n";
+    $this->assertEquals($expected, $result);
+    fclose($stdin);
+  }
+  public function xtestReadCommand()
   {
     $line = "+ 1 0";
     $expected = ["add", 1, 0];
@@ -40,7 +54,7 @@ final class DynamicLineIntersectionTest extends TestCase
     $result = readCommand($line);
     $this->assertEquals($expected, $result);
   }
-  public function testLineIntersection1()
+  public function xtestLineIntersection1()
   {
     // y = mx + b
     $line1 = [1, 0];
@@ -50,7 +64,7 @@ final class DynamicLineIntersectionTest extends TestCase
     $result = lineIntersection($line1, $line2);
     $this->assertEquals($expected, $result);
   }
-  public function testLineIntersection2()
+  public function xxtestLineIntersection2()
   {
     // y = mx + b
     $line1 = [1, 0];
@@ -60,7 +74,7 @@ final class DynamicLineIntersectionTest extends TestCase
     $result = lineIntersection($line1, $line2);
     $this->assertEquals($expected, $result);
   }
-  public function testLineIntersectionAtIntX1()
+  public function xtestLineIntersectionAtIntX1()
   {
     // y = mx + b
     $line1 = [1, 0];
@@ -69,7 +83,7 @@ final class DynamicLineIntersectionTest extends TestCase
     $result = lineIntersectionAtIntX($line1, $line2);
     $this->assertTrue($result);
   }
-  public function testLineIntersectionAtIntX2()
+  public function xtestLineIntersectionAtIntX2()
   {
     // y = mx + b
     $line1 = [1, 0];
@@ -78,7 +92,7 @@ final class DynamicLineIntersectionTest extends TestCase
     $result = lineIntersectionAtIntX($line1, $line2);
     $this->assertTrue($result);
   }
-  public function testLineIntersectionAtIntXFindsFloats()
+  public function xtestLineIntersectionAtIntXFindsFloats()
   {
     // y = mx + b
     $line1 = [2, 0];
@@ -87,7 +101,7 @@ final class DynamicLineIntersectionTest extends TestCase
     $result = lineIntersectionAtIntX($line1, $line2);
     $this->assertFalse($result);
   }
-  public function testLineIntersectionAtIntXFindsFloats2()
+  public function xtestLineIntersectionAtIntXFindsFloats2()
   {
     // y = mx + b
     $line1 = [2, 0];
